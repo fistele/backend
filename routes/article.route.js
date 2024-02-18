@@ -79,30 +79,36 @@ router.get("/scat/:scategorieID", async (req, res) => {
   }
 });
 
+// chercher un article par s/cat
+router.get("/scat/:scategorieID", async (req, res) => {
+  try {
+    const art = await Article.find({
+      scategorieID: req.params.scategorieID,
+    }).exec();
+    res.status(200).json(art);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+});
+
 // chercher un article par cat
 router.get("/cat/:categorieID", async (req, res) => {
   try {
-    // Récupérer l'ID de la catégorie à partir de la requête
-    const categorieID = req.params.categorieID;
-    // Recherche de la catégorie spécifique
-    const categorie = await Scategorie.findById(categorieID);
-    if (!categorie) {
-      return res.status(404).json({ message: "La catégorie n'a pas été trouvée" });
-    }
     // Recherche des sous-catégories correspondant à la catégorie donnée
     const sousCategories = await Scategorie.find({
-      categorieID: categorieID,
+      categorieID: req.params.categorieID,
     }).exec();
+
     // Initialiser un tableau pour stocker les identifiants des sous-catégories trouvées
+
     const sousCategorieIDs = sousCategories.map((scategorie) => scategorie._id);
     // Recherche des articles correspondant aux sous-catégories trouvées
     const articles = await Article.find({
       scategorieID: { $in: sousCategorieIDs },
     }).exec();
-
     res.status(200).json(articles);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(404).json({ message: error.message });
   }
 });
 
