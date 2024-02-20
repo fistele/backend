@@ -2,6 +2,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 const categorieRouter = require("./routes/categorie.route");
 const scategorieRouter = require("./routes/scategorie.route");
@@ -13,7 +14,7 @@ dotenv.config();
 
 //utilisation de express pour la création de notre application
 const app = express();
-
+app.use(cors())
 //les endpoint de notre application afin de gérer les URL de notre site
 app.get("/", (req, res) => {
   res.send("Bonjour");
@@ -21,7 +22,7 @@ app.get("/", (req, res) => {
 
 // Connexion à la base données
 mongoose
-  .connect(process.env.DATABASECLOUD)
+  .connect(process.env.DATABASE)
   .then(() => {
     console.log("DataBase Successfully Connected");
   })
@@ -30,6 +31,7 @@ mongoose
     process.exit();
   });
 
+  
   app.use(express.json());
   app.use("/api/categories", categorieRouter);
   app.use("/api/scategories", scategorieRouter);
