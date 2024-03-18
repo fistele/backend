@@ -6,7 +6,7 @@ const ProtectedRoutes = () => {
   return token != null ? (
     <>
       <NavScroll />
-      <Outlet />s
+      <Outlet />
     </>
   ) : (
     <Navigate to="/login" />

@@ -63,15 +63,23 @@ router.post("/login", async (req, res) => {
 });
 //Access Token
 const generateAccessToken = (user) => {
-  return jwt.sign({ iduser: user._id, role: user.role }, process.env.TOKEN_SECRET, {
-    expiresIn: "5h", 
-  });
+  return jwt.sign(
+    { iduser: user._id, role: user.role },
+    process.env.TOKEN_SECRET,
+    {
+      expiresIn: "5h",
+    }
+  );
 };
 // Refresh
 function generateRefreshToken(user) {
-  return jwt.sign({ iduser: user._id, role: user.role }, process.env.REFRESH_TOKEN_SECRET, {
-    expiresIn: "1y",
-  });
+  return jwt.sign(
+    { iduser: user._id, role: user.role },
+    process.env.REFRESH_TOKEN_SECRET,
+    {
+      expiresIn: "1y",
+    }
+  );
 }
 //Refresh Route
 router.post("/refreshToken", async (req, res) => {
@@ -109,14 +117,25 @@ router.get("/", async (req, res) => {
 // créer un nouvel utilisateur
 router.post("/register", async (req, res) => {
   try {
-    let { email, password, firstname, lastname } = req.body;
+    let { email, password, firstname, lastname, role, isActive, avatar } =
+      req.body;
     const user = await User.findOne({ email });
     if (user)
       return res
         .status(404)
         .send({ success: false, message: "User already exists" });
 
-    const newUser = new User({ email, password, firstname, lastname });
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    const newUser = new User({
+      email: email,
+      password: hashedPassword,
+      firstname :  firstname,
+      lastname : lastname,
+      role : role || "user",
+      isActive : isActive || false,
+      avatar : avatar || "https://res.cloudinary.com/dp7u6qcab/image/upload/v1707831518/samples/two-ladies.jpg"
+    });
     const createdUser = await newUser.save();
 
     // Envoyer l'e-mail de confirmation de l'inscription

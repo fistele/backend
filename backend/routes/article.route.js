@@ -8,8 +8,8 @@ const { authorizeRoles } = require("../middleware/authorizeRoles");
 // afficher la liste des articles.
 router.get(
   "/",
-  /* verifyToken */
-  /* authorizeRoles("user", "admin", "visiteur"), */
+  verifyToken,
+  authorizeRoles("user", "admin", "visiteur"),
   async (req, res) => {
     try {
       const articles = await Article.find({}, null, { sort: { _id: -1 } })

@@ -6,6 +6,7 @@ import {
   editArticle,
   fetchArticleById,
 } from "../services/ArticleService";
+
 export const getArticles = createAsyncThunk(
   "article/getArticles",
   async (_, thunkAPI) => {
@@ -79,7 +80,7 @@ export const articleSlice = createSlice({
   extraReducers: (builder) => {
     //get articles
     builder
-      .addCase(getArticles.pending, (state, action) => {
+      .addCase(getArticles.pending, (state) => {
         state.isLoading = true;
         state.error = null;
       })
@@ -94,7 +95,7 @@ export const articleSlice = createSlice({
         console.log("impossible de se connecter au serveur");
       })
       //insertion article
-      .addCase(createArticle.pending, (state, action) => {
+      .addCase(createArticle.pending, (state) => {
         state.isLoading = true;
         state.error = null;
         state.success = null;
@@ -112,7 +113,7 @@ export const articleSlice = createSlice({
         state.success = null;
       })
       //Modification article
-      .addCase(updateArticle.pending, (state, action) => {
+      .addCase(updateArticle.pending, (state) => {
         state.isLoading = true;
         state.error = null;
         state.success = null;
@@ -126,7 +127,7 @@ export const articleSlice = createSlice({
         state.success = action.payload;
       })
       //Delete article
-      .addCase(delArticle.pending, (state, action) => {
+      .addCase(delArticle.pending, (state) => {
         state.isLoading = true;
         state.error = null;
       })
@@ -142,7 +143,7 @@ export const articleSlice = createSlice({
         state.error = action.payload;
       })
       //Fectch article
-      .addCase(findArticleByID.pending, (state, action) => {
+      .addCase(findArticleByID.pending, (state) => {
         state.isLoading = true;
         state.error = null;
       })

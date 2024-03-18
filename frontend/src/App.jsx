@@ -10,6 +10,7 @@ import Login from "./Admin/Login";
 import Logout from "./Admin/Logout";
 import Register from "./Admin/Register";
 import ListArticles from "./components/articlesRedux/Listarticles";
+import ProtectedRoutes from "./components/protectectRoutes";
 
 function App() {
   return (
@@ -17,11 +18,13 @@ function App() {
       <ToastContainer />
       <Router>
         <Routes>
-        <Route path="/menu" element={<NavScroll/>}/>
-        <Route path="/" element={<Login />} />
-        <Route path="/articles" element={<ListArticles />} />
-          <Route path="/Admin" element={<ProductsAppAdmin />} />
-          <Route path="/cart" element={<Cart />} />
+          <Route element={<ProtectedRoutes />}>
+            <Route path="/menu" element={<NavScroll />} />
+            <Route path="/" element={<Login />} />
+            <Route path="/articles" element={<ListArticles />} />
+            <Route path="/Admin" element={<ProductsAppAdmin />} />
+            <Route path="/cart" element={<Cart />} />
+          </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/register" element={<Register />} />
