@@ -125,13 +125,11 @@ router.post("/register", async (req, res) => {
         .status(404)
         .send({ success: false, message: "User already exists" });
 
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
     const newUser = new User({
-      email: email,
-      password: hashedPassword,
-      firstname :  firstname,
-      lastname : lastname,
+      email,
+      password,
+      firstname,
+      lastname,
       role : role || "user",
       isActive : isActive || false,
       avatar : avatar || "https://res.cloudinary.com/dp7u6qcab/image/upload/v1707831518/samples/two-ladies.jpg"

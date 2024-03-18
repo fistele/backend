@@ -18,9 +18,9 @@ function App() {
       <ToastContainer />
       <Router>
         <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/menu" element={<NavScroll />} />
           <Route element={<ProtectedRoutes />}>
-            <Route path="/menu" element={<NavScroll />} />
-            <Route path="/" element={<Login />} />
             <Route path="/articles" element={<ListArticles />} />
             <Route path="/Admin" element={<ProductsAppAdmin />} />
             <Route path="/cart" element={<Cart />} />

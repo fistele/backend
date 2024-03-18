@@ -12,4 +12,5 @@ axios.interceptors.request.use(
     Promise.reject(error);
   }
 );
+export const urlimage="http://localhost:3001/images/"
 export default axios;

@@ -15,6 +15,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import {buildFormData} from "../utils/ConvertFormData";
 function Copyright(props) {
   return (
     <Typography
@@ -43,6 +44,8 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const { user, isSuccess, isError } = useSelector((state) => state.auth);
+  const [avatar, setAvatar] = useState("");
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (password !== password2) {
@@ -53,10 +56,11 @@ const Register = () => {
         lastname: lastName,
         email: email,
         password: password,
+        avatar:avatar
       };
       dispatch(register(userData));
     }
-    navigate("/login");
+    /* navigate("/login"); */
   };
 
   return (
@@ -140,6 +144,17 @@ const Register = () => {
                   id="password2"
                   autoComplete="new-password"
                   onChange={(event) => setPassword2(event.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="avatar"
+                  label="Avatar"
+                  type="file"
+                  id="avatar"
+                  autoComplete="new-password"
                 />
               </Grid>
               <Grid item xs={12}>

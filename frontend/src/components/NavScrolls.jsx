@@ -10,9 +10,22 @@ import IconButton from "@mui/material/IconButton";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Avatar from "@mui/material/Avatar";
+import Stack from "@mui/material/Stack";
+import { urlimage } from "../Axios/Api";
+
 const NavScroll = () => {
   const navigate = useNavigate();
+  const mystyle = {
+    color: "white",
+    backgroundColor: "DodgerBlue",
+    padding: "10px",
+    fontFamily: "Arial",
+  };
   const { cartTotalQuantity } = useSelector((state) => state.storecart);
+
+  const { user } = useSelector((state) => state.auth);
+
   return (
     <Navbar className="bg-body-tertiary">
       <Container fluid>
@@ -34,6 +47,10 @@ const NavScroll = () => {
         </IconButton>
         <Navbar.Brand href="#"> </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
+        <Stack direction="row" spacing={2}>
+          <h6 style={mystyle}>{user.email}</h6>
+          <Avatar alt="Remy Sharp" src={ user.avatar} />
+        </Stack>
         <Navbar.Collapse id="navbarScroll">
           <Nav
             className="me-auto my-2 my-lg-0"
@@ -72,6 +89,9 @@ const NavScroll = () => {
             />
             <Button variant="outline-success">Search</Button>
           </Form>
+          <Nav.Link as={Link} to="/logout">
+              Logout
+            </Nav.Link>
         </Navbar.Collapse>
       </Container>
     </Navbar>
